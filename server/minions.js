@@ -13,7 +13,6 @@ const createID = () => {
 // GET request all minions
 minionRouter.get('/', (req, res, next) => {
     let allTheMinions = database.getAllFromDatabase('minions');
-    console.log(allTheMinions);
     res.send(allTheMinions);
 });
 
