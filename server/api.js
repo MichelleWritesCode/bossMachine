@@ -1,9 +1,14 @@
 const express = require('express');
 const app = express();
 const apiRouter = express.Router();
-const minionRouter = require('./minions');
+const database = require('./db');
 
-app.use('/minions', minionRouter);
+const minionRouter = require('./minions');
+apiRouter.use('/minions', minionRouter);
+
+const ideaRouter = require('./ideas');
+apiRouter.use('/ideas', ideaRouter);
+
 
 
 module.exports = apiRouter;
