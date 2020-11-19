@@ -60,7 +60,7 @@ minionRouter.put('/:id', (req, res, next) => {
     const findId = allTheMinions.some(minion => minion.id === minionId);
 
     if (findId === true) {
-        let minionId = minionId;
+        let id = minionId;
         let name = req.body.name;
         let title = req.body.title;
         let salary = req.body.salary;
@@ -86,5 +86,6 @@ minionRouter.delete('/:id', (req, res, next) => {
         res.status(404).send('Minion not found!');
     }
 });
+
 
 module.exports = minionRouter;
