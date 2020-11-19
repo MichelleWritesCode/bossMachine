@@ -26,14 +26,19 @@ ideaRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
     let weeklyRevenue = req.body.weeklyRevenue;
     let newIdea = { id, name, description, numWeeks, weeklyRevenue };
     database.addToDatabase('ideas', newIdea);
-    res.send(newIdea);
+    res.status(201).send(newIdea);
 });
 
 // GET request single idea
 ideaRouter.get('/:id', (req, res, next) => {
     let ideaId = req.params.id;
     let ideaById = database.getFromDatabaseById('ideas', ideaId);
-    res.send(ideaById);
+
+    if (!ideaById) {
+        res.status(404).send("Idea not found!");
+    } else {
+        res.status(200).send(ideaById);
+    }
 });
 
 // PUT request new idea
@@ -42,7 +47,7 @@ ideaRouter.put('/:id', checkMillionDollarIdea, (req, res, next) => {
     let allTheIdeas = database.getAllFromDatabase('ideas');
     let findIdeaById = allTheIdeas.some(idea => idea.id === ideaId);
     
-    if (findIdeaById === true) {
+    if (findIdeaById) {
         let id = ideaId;
         let name = req.body.name;
         let description = req.body.description;
@@ -64,7 +69,7 @@ ideaRouter.delete('/:id', (req, res, next) => {
 
     if (findIdeaToDelete === true) {
         database.deleteFromDatabasebyId('ideas', ideaID);
-        res.send();
+        res.status(204).send();
     } else {
         res.status(404).send("Idea not found!");
     }

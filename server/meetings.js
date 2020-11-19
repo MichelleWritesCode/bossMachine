@@ -13,13 +13,13 @@ meetingRouter.get('/', (req, res, next) => {
 meetingRouter.post('/', (req, res, next) => {
     let newMeeting = database.createMeeting();
     database.addToDatabase('meetings', newMeeting);
-    res.send(newMeeting);
+    res.status(201).send(newMeeting);
 });
 
 // DELETE all meetings
 meetingRouter.delete('/', (req, res, next) => {
     database.deleteAllFromDatabase('meetings');
-    res.send();
+    res.status(204).send();
 });
 
 

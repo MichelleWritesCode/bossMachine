@@ -36,21 +36,26 @@ minionRouter.get('/', (req, res, next) => {
 
 // POST request
 minionRouter.post('/', (req, res, next) => {
-    let minionId = createID();
+    let id = createID();
     let name = req.body.name;
     let title = req.body.title;
     let salary = req.body.salary;
     let weaknesses = req.body.weaknesses;
-    let newMinion = { minionId, name, title, salary, weaknesses };
+    let newMinion = { id, name, title, salary, weaknesses };
     database.addToDatabase('minions', newMinion);
-    res.send(newMinion);
+    res.status(201).send(newMinion);
 });
 
 // GET request single minion
 minionRouter.get('/:id', (req, res, next) => {
     let minionId = req.params.id;
     let singleMinion = database.getFromDatabaseById('minions', minionId);
-    res.send(singleMinion);
+
+    if (!singleMinion) {
+        res.status(404).send("Minion not found!");
+    } else {
+        res.status(200).send(singleMinion);
+    }
 });
 
 // PUT request update single minion
@@ -81,7 +86,7 @@ minionRouter.delete('/:id', (req, res, next) => {
 
     if (findMinionToDelete === true) {
         database.deleteFromDatabasebyId('minions', minionId);
-        res.send();
+        res.status(204).send();
     } else {
         res.status(404).send('Minion not found!');
     }
