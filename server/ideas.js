@@ -41,7 +41,6 @@ ideaRouter.put('/:id', checkMillionDollarIdea, (req, res, next) => {
     let ideaId = req.params.id;
     let allTheIdeas = database.getAllFromDatabase('ideas');
     let findIdeaById = allTheIdeas.some(idea => idea.id === ideaId);
-    console.log(findIdeaById);
     
     if (findIdeaById === true) {
         let id = ideaId;
@@ -50,10 +49,8 @@ ideaRouter.put('/:id', checkMillionDollarIdea, (req, res, next) => {
         let numWeeks = req.body.numWeeks;
         let weeklyRevenue = req.body.weeklyRevenue;
         let updatedIdea = { id, name, description, numWeeks, weeklyRevenue };
-        console.log(updatedIdea);
         database.updateInstanceInDatabase('ideas', updatedIdea);
         res.send(updatedIdea);
-        console.log(database.getAllFromDatabase('ideas'));
     } else {
         res.status(404).send("Idea not found!");
     }

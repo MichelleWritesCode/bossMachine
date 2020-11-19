@@ -76,10 +76,15 @@ minionRouter.put('/:id', (req, res, next) => {
 // DELETE request
 minionRouter.delete('/:id', (req, res, next) => {
     let minionId = req.params.id;
-    database.deleteFromDatabasebyId('minions', minionId);
-    res.send();
+    let allTheMinions = database.getAllFromDatabase('minions');
+    let findMinionToDelete = allTheMinions.some(minion => minion.id === minionId);
+
+    if (findMinionToDelete === true) {
+        database.deleteFromDatabasebyId('minions', minionId);
+        res.send();
+    } else {
+        res.status(404).send('Minion not found!');
+    }
 });
-
-
 
 module.exports = minionRouter;
