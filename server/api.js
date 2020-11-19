@@ -13,5 +13,4 @@ const meetingRouter = require('./meetings');
 apiRouter.use('/meetings', meetingRouter);
 
 
-
 module.exports = apiRouter;

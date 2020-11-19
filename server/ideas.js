@@ -2,6 +2,7 @@ const express = require('express');
 const apiRouter = express();
 const ideaRouter = express.Router();
 const database = require('./db');
+const checkMillionDollarIdea = require('./checkMillionDollarIdea');
 
 // Function Create ID
 let createIdeaId = () => {
@@ -17,7 +18,7 @@ ideaRouter.get('/', (req, res, next) => {
 });
 
 // POST request create idea
-ideaRouter.post('/', (req, res, next) => {
+ideaRouter.post('/', checkMillionDollarIdea, (req, res, next) => {
     let id = createIdeaId();
     let name = req.body.name;
     let description = req.body.description;
@@ -36,7 +37,7 @@ ideaRouter.get('/:id', (req, res, next) => {
 });
 
 // PUT request new idea
-ideaRouter.put('/:id', (req, res, next) => {
+ideaRouter.put('/:id', checkMillionDollarIdea, (req, res, next) => {
     let ideaId = req.params.id;
     let allTheIdeas = database.getAllFromDatabase('ideas');
     let findIdeaById = allTheIdeas.some(idea => idea.id === ideaId);
